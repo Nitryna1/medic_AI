@@ -43,7 +43,12 @@ def analyze_description(image_name, user_description, expected_description):
     return "Tekst zwrotny analizy"
 
 # Główna aplikacja Streamlit
-st.title("Asystent AI do Analizy Pantomogramów")
+#st.title("Asystent AI do Analizy Pantomogramów")
+# Tytuł aplikacji z mniejszym rozmiarem
+st.markdown(
+    "<h1 style='font-size: 2.5rem;'>Asystent AI do Analizy Pantomogramów</h1>", 
+    unsafe_allow_html=True
+)
 st.write("Opisz pantomogram widoczny poniżej, a system oceni Twój opis.")
 
 # Losuj obrazek
