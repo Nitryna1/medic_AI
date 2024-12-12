@@ -43,8 +43,8 @@ def analyze_description(image_name, user_description, expected_description):
     return "Tekst zwrotny analizy"
 
 # Główna aplikacja Streamlit
-st.title("Aplikacja: Opis obrazka")
-st.write("Opisz obrazek widoczny poniżej, a system oceni Twój opis.")
+st.title("Asystent AI do Analizy Pantomogramów")
+st.write("Opisz pantomogram widoczny poniżej, a system oceni Twój opis.")
 
 # Losuj obrazek
 image_name = get_random_image()
