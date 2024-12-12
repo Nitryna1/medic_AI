@@ -23,22 +23,24 @@ def get_random_image():
 
 # Funkcja do weryfikacji opisu
 def analyze_description(image_name, user_description, expected_description):
-    prompt = f"""
-    Obrazek: {image_name}
-    Opis użytkownika: {user_description}
-    Prawidłowy opis powinien zawierać: {expected_description}.
-    Porównaj oba opisy i wypisz, co pasuje, a czego brakuje w opisie użytkownika.
     """
-    # Nowa wersja API
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are an assistant that evaluates image descriptions."},
-            {"role": "user", "content": prompt}
-        ]
-    )
-    # Zwracanie odpowiedzi
-    return response["choices"][0]["message"]["content"]
+    Zakomentowane połączenie z OpenAI API. Funkcja zwraca teraz statyczny tekst.
+    """
+    # prompt = f"""
+    # Obrazek: {image_name}
+    # Opis użytkownika: {user_description}
+    # Prawidłowy opis powinien zawierać: {expected_description}.
+    # Porównaj oba opisy i wypisz, co pasuje, a czego brakuje w opisie użytkownika.
+    # """
+    # response = openai.ChatCompletion.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=[
+    #         {"role": "system", "content": "You are an assistant that evaluates image descriptions."},
+    #         {"role": "user", "content": prompt}
+    #     ]
+    # )
+    # return response["choices"][0]["message"]["content"]
+    return "Tekst zwrotny analizy"
 
 # Główna aplikacja Streamlit
 st.title("Aplikacja: Opis obrazka")
@@ -59,7 +61,7 @@ if image_name:
             # Predefiniowany prawidłowy opis
             expected_description = "Obraz przedstawia krajobraz z górami i rzeką w tle."
 
-            # Analiza opisu przez GPT
+            # Analiza opisu przez GPT (lub statyczny tekst)
             try:
                 feedback = analyze_description(image_name, user_description, expected_description)
                 st.subheader("Wynik analizy:")
