@@ -48,7 +48,7 @@ st.write("Opisz obrazek widoczny poniżej, a system oceni Twój opis.")
 image_name = get_random_image()
 if image_name:
     image_path = os.path.join(IMAGE_FOLDER, image_name)
-    st.image(image_path, caption=f"Losowy obrazek: {image_name}", use_column_width=True)
+    st.image(image_path, caption=f"Losowy obrazek: {image_name}", use_container_width=True)
 
     # Formularz do opisu
     user_description = st.text_area("Wpisz opis obrazka:", "")
