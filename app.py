@@ -6,14 +6,15 @@ import openai
 # Ustaw swój klucz API OpenAI
 openai.api_key = "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"
 
-# Ścieżka do folderu z obrazami
-IMAGE_FOLDER = r"C:\Users\Ja\Desktop\AI_proba2"
+# Ścieżka do folderu z obrazami (folder, w którym znajduje się app.py)
+IMAGE_FOLDER = os.path.dirname(__file__)
 
 # Funkcja losująca obrazek
 def get_random_image():
     if not os.path.exists(IMAGE_FOLDER):
         st.error(f"Folder {IMAGE_FOLDER} nie istnieje. Sprawdź poprawność ścieżki.")
         return None
+    # Wybierz pliki graficzne w folderze
     images = [img for img in os.listdir(IMAGE_FOLDER) if img.endswith(('png', 'jpg', 'jpeg'))]
     if not images:
         st.error(f"Folder {IMAGE_FOLDER} nie zawiera obrazów. Dodaj pliki PNG, JPG lub JPEG.")
