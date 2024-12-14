@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[17]:
+# In[ ]:
 
 
 import os
@@ -9,6 +9,7 @@ import random
 import streamlit as st
 import openai
 import time
+from openai.error import OpenAIError  # Poprawny import klasy błędu
 
 # Pobieranie klucza API z secrets
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
@@ -51,7 +52,7 @@ def analyze_textual_difference_with_gpt(image_name, user_description, expected_d
                 ]
             )
             return response['choices'][0]['message']['content']
-        except openai.error.OpenAIError as e:
+        except OpenAIError as e:  # Obsługa błędów API OpenAI
             if attempt < retries - 1:
                 st.warning(f"Próba {attempt + 1}/{retries} nieudana. Czekam {wait_time} sekund przed kolejną próbą...")
                 time.sleep(wait_time)
@@ -91,10 +92,4 @@ if image_name:
                 st.error(f"Wystąpił błąd podczas analizy: {e}")
         else:
             st.error("Proszę wpisać opis obrazka przed wysłaniem.")
-
-
-# In[ ]:
-
-
-
 
