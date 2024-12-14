@@ -43,7 +43,7 @@ def analyze_textual_difference_with_gpt(image_name, user_description, expected_d
     
     for attempt in range(retries):
         try:
-            response = openai.ChatCompletion.acreate(  # Zwróć uwagę na nowy sposób wywołania
+            response = openai.ChatCompletion.create(  # Zwróć uwagę na nowy sposób wywołania
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "Jesteś asystentem oceniającym opisy obrazów."},
