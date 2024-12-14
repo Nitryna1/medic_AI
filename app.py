@@ -28,7 +28,7 @@ def get_random_image():
         return None
     return random.choice(images)
 
-# Funkcja wysyłająca zapytanie do GPT API OpenAI
+# Funkcja wysyłająca zapytanie do GPT API OpenAI (zgodnie z nowym interfejsem)
 def analyze_textual_difference_with_gpt(image_name, user_description, expected_description, retries=5, wait_time=20):
     """
     Analizuje różnice między opisem użytkownika a oczekiwanym opisem za pomocą modelu GPT OpenAI.
@@ -43,7 +43,7 @@ def analyze_textual_difference_with_gpt(image_name, user_description, expected_d
     
     for attempt in range(retries):
         try:
-            response = openai.ChatCompletion.create(
+            response = openai.ChatCompletion.acreate(  # Zwróć uwagę na nowy sposób wywołania
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "Jesteś asystentem oceniającym opisy obrazów."},
@@ -51,7 +51,7 @@ def analyze_textual_difference_with_gpt(image_name, user_description, expected_d
                 ]
             )
             return response['choices'][0]['message']['content']
-        except Exception as e:  # Ogólna obsługa błędów
+        except Exception as e:
             if attempt < retries - 1:
                 st.warning(f"Próba {attempt + 1}/{retries} nieudana. Czekam {wait_time} sekund przed kolejną próbą...")
                 time.sleep(wait_time)
