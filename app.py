@@ -9,7 +9,6 @@ import random
 import streamlit as st
 import openai
 import time
-from openai.error import OpenAIError  # Poprawny import klasy błędu
 
 # Pobieranie klucza API z secrets
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
@@ -52,12 +51,12 @@ def analyze_textual_difference_with_gpt(image_name, user_description, expected_d
                 ]
             )
             return response['choices'][0]['message']['content']
-        except OpenAIError as e:  # Obsługa błędów API OpenAI
+        except Exception as e:  # Ogólna obsługa błędów
             if attempt < retries - 1:
                 st.warning(f"Próba {attempt + 1}/{retries} nieudana. Czekam {wait_time} sekund przed kolejną próbą...")
                 time.sleep(wait_time)
             else:
-                return f"Błąd API OpenAI: {str(e)}"
+                return f"Błąd podczas komunikacji z API OpenAI: {str(e)}"
 
     return "Nie udało się uzyskać odpowiedzi od API po maksymalnej liczbie prób."
 
@@ -81,7 +80,16 @@ if image_name:
     if st.button("Prześlij"):
         if user_description.strip():
             # Predefiniowany prawidłowy opis
-            expected_description = "Pantomogram przedstawia obraz szczęki i żuchwy w projekcji panoramicznej. W obrębie górnej szczęki widoczne są wszystkie zęby, w tym zęby mądrości, które nie wykazują oznak erupcji. Zęby przednie i trzonowe w obu ćwiartkach górnych wykazują obecność wypełnień kompozytowych. W dolnej szczęce zęby mądrości znajdują się w pozycji prawie pionowej, bez oznak resorpcji korzeni. W rejonie zębów trzonowych dolnych widoczna jest niewielka zmiana patologiczna w postaci zagęszczenia kości, sugerująca obecność stanu zapalnego lub torbieli okołowierzchołkowej. Brak widocznych zmian w obrębie stawów skroniowo-żuchwowych. Kości szczęk i żuchwy wykazują prawidłową gęstość i strukturę, bez widocznych złamań czy rozchwiania zębów. Przestrzenie międzyzębowe w obrębie obu szczęk są zachowane, bez widocznych objawów próchnicy o dużym stopniu zaawansowania."
+            expected_description = (
+                "Pantomogram przedstawia obraz szczęki i żuchwy w projekcji panoramicznej. "
+                "W obrębie górnej szczęki widoczne są wszystkie zęby, w tym zęby mądrości, które nie wykazują oznak erupcji. "
+                "Zęby przednie i trzonowe w obu ćwiartkach górnych wykazują obecność wypełnień kompozytowych. "
+                "W dolnej szczęce zęby mądrości znajdują się w pozycji prawie pionowej, bez oznak resorpcji korzeni. "
+                "W rejonie zębów trzonowych dolnych widoczna jest niewielka zmiana patologiczna w postaci zagęszczenia kości, "
+                "sugerująca obecność stanu zapalnego lub torbieli okołowierzchołkowej. Brak widocznych zmian w obrębie stawów skroniowo-żuchwowych. "
+                "Kości szczęk i żuchwy wykazują prawidłową gęstość i strukturę, bez widocznych złamań czy rozchwiania zębów. "
+                "Przestrzenie międzyzębowe w obrębie obu szczęk są zachowane, bez widocznych objawów próchnicy o dużym stopniu zaawansowania."
+            )
 
             # Analiza opisu przez OpenAI API
             try:
