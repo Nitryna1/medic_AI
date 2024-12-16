@@ -35,12 +35,11 @@ def analyze_textual_difference_with_gpt(image_name, user_description, expected_d
     """
     prompt = (
         f"Opis użytkownika: {user_description}\n"
-        f"Poprawny opis powinien wyglądać tak: {expected_description}.\n"
+        f"Poprawny opis powinien zawierać takie szczegóły: {expected_description}.\n"
         f"Twoje zadanie to:\n"
         f"1. Porównać opis użytkownika z poprawnym wzorcem.\n"
         f"2. Wypisać elementy, które są brakujące w opisie użytkownika.\n"
         f"3. Wskazać elementy, które są błędne lub niezgodne z poprawnym wzorcem, wraz z krótkim wyjaśnieniem.\n"
-        f"4. Podać, czy w opisie użytkownika znajdują się elementy zbędne lub nieistotne.\n"
         f"Format odpowiedzi: konkretna lista różnic, wyraźnie oznaczając brakujące, błędne i zbędne elementy.\n"
     )
     
