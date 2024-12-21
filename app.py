@@ -83,5 +83,59 @@ def analyze_textual_difference_with_gpt(image_name, user_description, reference_
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are an assistant evaluating image descriptions."},
-                    {"role": "user", "content": promp
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            return response['choices'][0]['message']['content']
+        except Exception as e:
+            if attempt < retries - 1:
+                st.warning(f"Attempt {attempt + 1}/{retries} failed. Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+            else:
+                return f"Error communicating with OpenAI API: {str(e)}"
+    return "Failed to get a response from the API after maximum attempts."
+
+# Main Streamlit application
+st.markdown("<h1 style='font-size: 2.5rem;'>AI Assistant for Pantomogram Analysis</h1>", unsafe_allow_html=True)
+st.write("Describe the pantomogram shown below, and the system will evaluate your description.")
+
+# Ensure the image is only randomized once
+if "image_name" not in st.session_state:
+    st.session_state.image_name = get_random_image()
+
+image_name = st.session_state.image_name
+
+if image_name:
+    image_path = os.path.join(current_folder, image_name)
+    st.image(image_path, caption=f"Random Image: {image_name}")
+
+    if "test_(" in image_name and ")" in image_name:
+        try:
+            image_number = int(image_name.split("test_(")[1].split(")")[0])
+            reference_data = get_row_by_image_number(image_number)
+
+            if reference_data:
+                reference_description = format_for_prompt(reference_data)
+
+                # Display reference description
+                st.subheader("Reference Description:")
+                st.write(reference_description)
+
+                user_description = st.text_area("Enter your description of the image:", "")
+
+                if st.button("Submit"):
+                    if user_description.strip():
+                        feedback = analyze_textual_difference_with_gpt(image_name, user_description, reference_description)
+                        st.subheader("Analysis Result:")
+                        st.write(feedback)
+                    else:
+                        st.error("Please enter a description of the image before submitting.")
+            else:
+                st.error("Failed to retrieve reference data for this image.")
+        except ValueError:
+            st.error("Invalid image number format in the file name.")
+    else:
+        st.error("Cannot extract the image number from the file name.")
+else:
+    st.error("No image selected.")
 le name.")
