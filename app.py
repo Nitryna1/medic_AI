@@ -113,7 +113,10 @@ if image_name:
         reference_data = get_row_by_image_number(image_number)
 
         if reference_data:
-            reference_description = format_for_prompt(reference_data)
+            reference_description = format_for_prompt(refe
+            # Wyświetlenie kontrolne zmiennej reference_description
+            st.subheader("Reference Description:")
+            st.write(reference_description)rence_data)
 
             user_description = st.text_area("Enter your description of the image:", "")
 
