@@ -79,7 +79,7 @@ def analyze_textual_difference_with_gpt(image_name, user_description, reference_
     for attempt in range(retries):
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are an assistant evaluating image descriptions."},
                     {"role": "user", "content": prompt}
